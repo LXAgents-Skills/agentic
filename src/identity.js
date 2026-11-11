@@ -19,7 +19,8 @@ export const SERVER_ID = "lxagents-agentic";
 export const SERVER_TITLE = "LXAgents Agentic";
 
 /** One sentence on what the set is; the server's `instructions` open with it. */
-export const SERVER_SUMMARY = "The agentic instruction set, served read-only.";
+export const SERVER_SUMMARY =
+  "Instructions for fully autonomous agentic workflows, one purpose per tool, served read-only.";
 
 /**
  * A name as it appears inside a tool ID: lowercase, and every run of anything that is not a

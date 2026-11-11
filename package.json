@@ -2,7 +2,7 @@
   "name": "@lxagents-skills/agentic",
   "version": "0.0.0",
   "private": true,
-  "description": "The agentic instruction set, served read-only.",
+  "description": "Instructions for fully autonomous agentic workflows, one purpose per tool, served read-only.",
   "type": "module",
   "main": "src/index.js",
   "bin": {
