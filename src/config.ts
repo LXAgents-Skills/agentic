@@ -1,5 +1,15 @@
 import { availableParallelism } from "node:os";
 
+/** The server's configuration, as `loadConfig` returns it. */
+export interface Config {
+  readonly transport: string;
+  readonly port: number;
+  readonly host: string;
+  readonly local: boolean;
+  readonly workers: number;
+  readonly allowedHosts: readonly string[];
+}
+
 /*
  * Every environment variable the server reads, read in one place.
  *
@@ -9,7 +19,7 @@ import { availableParallelism } from "node:os";
  */
 
 /** A comma-separated list, trimmed, with empty entries dropped. Unset is `[]`. */
-function splitList(raw) {
+function splitList(raw: string | undefined): string[] {
   if (!raw) return [];
   return raw
     .split(",")
@@ -29,7 +39,7 @@ function splitList(raw) {
  * constant: a container with two CPUs gets two workers and a laptop does not get
  * eight.
  */
-function workerCount(raw) {
+function workerCount(raw: string | undefined): number {
   const configured = Number.parseInt(raw ?? "", 10);
   if (Number.isInteger(configured) && configured >= 0) return configured;
   return availableParallelism();
@@ -41,10 +51,8 @@ function workerCount(raw) {
  * `localhost`, any `127.x.x.x`, and `::1` with or without brackets. `0.0.0.0` and `::`
  * mean every interface, so they are not loopback; neither is an empty value.
  *
- * @param {string} host
- * @returns {boolean}
  */
-export function isLoopback(host) {
+export function isLoopback(host: string | undefined): boolean {
   const value = String(host ?? "").trim().toLowerCase();
   return (
     value === "localhost" ||
@@ -72,9 +80,8 @@ export function isLoopback(host) {
  *   server serves public markdown either way, so the absence is reported on startup
  *   rather than papered over with a default list.
  *
- * @param {NodeJS.ProcessEnv} [env]
  */
-export function loadConfig(env = process.env) {
+export function loadConfig(env: NodeJS.ProcessEnv = process.env): Config {
   const host = env.HOST || "0.0.0.0";
   return Object.freeze({
     transport: (env.MCP_TRANSPORT ?? "stdio").toLowerCase(),

@@ -28,7 +28,12 @@ const WRITERS = {
   state_manager: "handover.md",
 };
 
-const read = (base) => readFileSync(join(CONTENT_DIR, INSTRUCTION_FILES.get(toolId(base))), "utf8");
+/** The text a tool serves, by base name. A missing tool fails the test that names it. */
+function read(base: string): string {
+  const path = INSTRUCTION_FILES.get(toolId(base));
+  assert.ok(path, `${toolId(base)} is not served`);
+  return readFileSync(join(CONTENT_DIR, path), "utf8");
+}
 
 test("every agentic tool is served under {org}_{repo}_{base}", () => {
   for (const base of Object.keys(FAILSAFES)) {

@@ -6,7 +6,7 @@ import { createServer } from "../src/server.js";
  * Connect an in-memory client to a fresh server, hand the client to `run`, and close both
  * afterwards whether or not `run` throws.
  */
-export async function withClient(run) {
+export async function withClient<T>(run: (client: Client) => Promise<T>): Promise<T> {
   const server = createServer({ version: "0.0.0" });
   const client = new Client({ name: "test-client", version: "0.0.0" });
   const [clientTransport, serverTransport] = InMemoryTransport.createLinkedPair();

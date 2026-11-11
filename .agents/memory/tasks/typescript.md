@@ -70,3 +70,56 @@ Landed. The runtime dependencies are at their latest versions: `@modelcontextpro
 ^1.32.2, `express` ^5.3.0 and `zod` ^4.6.7. The dev dependencies are `typescript` ^7.0.2,
 `@types/node` ^26.6.6, `tsx` ^4.23.15 and `@types/express` ^5.0.6. `npm audit` found 0
 vulnerabilities and `npm outdated` is empty. The JavaScript suite still passes, 43 of 43.
+
+### Task 3 — refactor/typescript
+
+Landed. Every `.js` in `src/`, `test/` and `scripts/` was renamed to `.ts` with `git mv`, then
+typed under `strict` with the logic unchanged. The types added:
+
+- `Config` (config);
+- `ToolConfig`, `ContentInstruction` and `ContentSurface` (the surface);
+- `AppOptions` (HTTP app);
+- `Flags`, `IdentityFlags` and `Identity` (init);
+- the SDK's `CallToolResult` for the tool handlers;
+- express `RequestHandler`, `ErrorRequestHandler`, `Response` and `Express`.
+
+Imports keep their `.js` specifiers, as NodeNext resolves them.
+
+Configuration:
+
+- `tsconfig.json` builds `src/` to `dist/` with ES2022, NodeNext, strict and source maps.
+- `tsconfig.check.json` type-checks `src/`, `test/` and `scripts/` without emitting.
+
+`package.json`:
+
+- `main` and `bin` point to `dist/`, and `files` ships `dist/`.
+- Scripts: `build` (`tsc`), `typecheck`, `prepare` (build on install), and `pretest` (build
+  and typecheck).
+- `test` is `node --import tsx --test test/*.test.ts`. `start`, `start:http`, `cli`, `tools`
+  and `inspect` run `dist/`, and `init` runs `tsx scripts/init.ts`.
+- `engines` is now `>=22`. Node 20 reached end of life in April 2026, and `--test` globs need
+  Node 21 or later.
+
+`dist/` is git-ignored.
+
+Changes to logic that the move forced:
+
+- `derivedBase` falls back to the whole path when `split` yields nothing, which cannot happen.
+- `bearerCredential` uses `match?.[1] ?? null`.
+- `init` rewrites `src/identity.ts`, sets new bins to `dist/`, and boots `src/cli.ts`
+  through `tsx`.
+
+The process-spawning tests start the TypeScript entry points with `--import tsx`.
+
+The new `test/dist.test.ts` starts the compiled `dist/` with plain `node`. It checks the CLI
+version and tool list, a stdio handshake that lists the tools, and HTTP `/healthz` on
+loopback with no token.
+
+The Dockerfile is two stages: the first runs `tsc`, and the image runs `dist/index.js`.
+Docker itself is not available here, so the image's steps were reproduced by hand: `npm ci`
+and a build, then `npm ci --omit=dev` with `dist/` and `content/` copied in, and `/healthz`
+answered.
+
+Results: 46 tests pass. Before the move it was 42 tests; the old count of 43 included
+`helpers.js`, which node ran as a file. `npm run typecheck` is clean and `npm audit` found 0
+vulnerabilities.

@@ -34,7 +34,7 @@ test("the identity defaults follow the existing servers' naming", () => {
 });
 
 test("rewriteIdentity replaces every identity constant, multi-line values included", () => {
-  const source = readFileSync(join(ROOT, "src/identity.js"), "utf8");
+  const source = readFileSync(join(ROOT, "src/identity.ts"), "utf8");
   const next = identityFor({ org: "Acme", repo: "docs", summary: 'Say "hi".' });
   const out = rewriteIdentity(source, next);
 
@@ -49,7 +49,7 @@ test("rewritePackage renames the package and resets its version", () => {
   const pkg = JSON.parse(rewritePackage(readFileSync(join(ROOT, "package.json"), "utf8"), identityFor({ org: "Acme", repo: "docs" })));
   assert.equal(pkg.name, "@acme/docs");
   assert.equal(pkg.version, "0.0.0");
-  assert.deepEqual(pkg.bin, { "acme-docs": "src/cli.js", "acme-docs-server": "src/index.js" });
+  assert.deepEqual(pkg.bin, { "acme-docs": "dist/cli.js", "acme-docs-server": "dist/index.js" });
   assert.equal(pkg.repository.url, "git+https://github.com/Acme/docs.git");
 });
 
@@ -65,10 +65,10 @@ test("replaceAll swaps whole strings in order", () => {
 test("init turns a copy of the template into a new repository that passes its own tests", () => {
   const copy = mkdtempSync(join(tmpdir(), "template-copy-"));
   try {
-    cpSync(ROOT, copy, { recursive: true, filter: (src) => !/[\\/](node_modules|\.git)$/.test(src) });
+    cpSync(ROOT, copy, { recursive: true, filter: (src: string) => !/[\\/](node_modules|\.git|dist)$/.test(src) });
     symlinkSync(join(ROOT, "node_modules"), join(copy, "node_modules"), "junction");
 
-    const init = spawnSync(process.execPath, ["scripts/init.js", "--org", "Acme-Labs", "--repo", "field-notes"], {
+    const init = spawnSync(process.execPath, ["--import", "tsx", "scripts/init.ts", "--org", "Acme-Labs", "--repo", "field-notes"], {
       cwd: copy,
       encoding: "utf8",
     });
@@ -91,7 +91,7 @@ test("init turns a copy of the template into a new repository that passes its ow
       assert.doesNotMatch(text, /template-only|create-a-new-repository|template-version/, `${page} keeps template-only text`);
     }
 
-    const suite = spawnSync(process.execPath, ["--test", "test/server.test.js", "test/naming.test.js"], {
+    const suite = spawnSync(process.execPath, ["--import", "tsx", "--test", "test/server.test.ts", "test/naming.test.ts"], {
       cwd: copy,
       encoding: "utf8",
     });
