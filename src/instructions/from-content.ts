@@ -1,4 +1,5 @@
 import { readdirSync, readFileSync } from "node:fs";
+import type { CallToolResult } from "@modelcontextprotocol/sdk/types.js";
 import { join, relative, sep } from "node:path";
 import { CONTENT_DIR } from "../paths.js";
 import { parseFrontmatter } from "./frontmatter.js";
@@ -12,9 +13,27 @@ import { OVERRIDE_BASES, nameProblem, toolNameFor } from "./naming.js";
  * stops the process instead of answering the first caller wrongly.
  */
 
+/** What a tool is registered with: its name and the description a client routes on. */
+export interface ToolConfig {
+  readonly name: string;
+  readonly description: string;
+}
+
+/** One served file: how it is registered, and the handler that returns it. */
+export interface ContentInstruction {
+  readonly config: ToolConfig;
+  readonly handler: () => Promise<CallToolResult>;
+}
+
+/** The surface, and which file each tool name serves. */
+export interface ContentSurface {
+  readonly tools: ContentInstruction[];
+  readonly files: Map<string, string>;
+}
+
 /** Every `.md` under `dir`, as set-relative forward-slash paths, sorted. */
-export function markdownFiles(dir = CONTENT_DIR, base = dir) {
-  const found = [];
+export function markdownFiles(dir: string = CONTENT_DIR, base: string = dir): string[] {
+  const found: string[] = [];
 
   for (const entry of readdirSync(dir, { withFileTypes: true })) {
     const full = join(dir, entry.name);
@@ -31,14 +50,14 @@ export function markdownFiles(dir = CONTENT_DIR, base = dir) {
  * Each handler returns its file whole, frontmatter included, byte for byte. No handler takes
  * an argument, so there is no path for a caller to traverse with.
  *
- * @param {string} [dir]
- * @param {Readonly<Record<string, string>>} [overrides]
- * @returns {{ tools: { config: { name: string, description: string }, handler: Function }[], files: Map<string, string> }}
  */
-export function buildContentInstructions(dir = CONTENT_DIR, overrides = OVERRIDE_BASES) {
+export function buildContentInstructions(
+  dir: string = CONTENT_DIR,
+  overrides: Readonly<Record<string, string>> = OVERRIDE_BASES,
+): ContentSurface {
   const paths = markdownFiles(dir);
-  const tools = [];
-  const files = new Map();
+  const tools: ContentInstruction[] = [];
+  const files = new Map<string, string>();
 
   for (const key of Object.keys(overrides)) {
     if (!paths.includes(key)) {
@@ -66,7 +85,7 @@ export function buildContentInstructions(dir = CONTENT_DIR, overrides = OVERRIDE
     files.set(name, path);
     tools.push({
       config: { name, description },
-      handler: async () => ({ content: [{ type: "text", text }] }),
+      handler: async (): Promise<CallToolResult> => ({ content: [{ type: "text", text }] }),
     });
   }
 
@@ -79,7 +98,7 @@ export function buildContentInstructions(dir = CONTENT_DIR, overrides = OVERRIDE
 
 const { tools, files } = buildContentInstructions();
 
-export const CONTENT_INSTRUCTIONS = Object.freeze(tools);
+export const CONTENT_INSTRUCTIONS: readonly ContentInstruction[] = Object.freeze(tools);
 
 /** Tool name -> the set-relative file it serves. The tests pin both directions. */
-export const INSTRUCTION_FILES = files;
+export const INSTRUCTION_FILES: Map<string, string> = files;

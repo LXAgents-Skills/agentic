@@ -28,10 +28,8 @@ export const SERVER_SUMMARY =
  *
  * `LXAgents-Skills` is `lxagents_skills`; `shared-instruction` is `shared_instruction`.
  *
- * @param {string} name
- * @returns {string}
  */
-export function idPart(name) {
+export function idPart(name: string): string {
   return String(name)
     .toLowerCase()
     .replace(/[^a-z0-9]+/g, "_")
@@ -50,9 +48,7 @@ export const TOOL_PREFIX = `${idPart(ORG_NAME)}_${idPart(REPO_NAME)}`;
 /**
  * A base name with the prefix in front of it.
  *
- * @param {string} base
- * @returns {string}
  */
-export function toolId(base) {
+export function toolId(base: string): string {
   return `${TOOL_PREFIX}_${base}`;
 }

@@ -1,11 +1,11 @@
-#!/usr/bin/env node
+#!/usr/bin/env -S node --import tsx
 
 /*
  * Turn a fresh copy of the template into a new repository.
  *
  *   npm run init -- --org LXAgents-Skills --repo my-skills
  *
- * Rewrites the identity in src/identity.js, package.json and package-lock.json, swaps the
+ * Rewrites the identity in src/identity.ts, package.json and package-lock.json, swaps the
  * old tool prefix, org/repo slug and server ID for the new ones in every markdown file and
  * the Dockerfile, drops every template-only block and file, clears the template's own
  * history (task records, decisions, release logs), and then boots the tool list to prove
@@ -71,7 +71,7 @@ description: Router over wiki/logs/ - one row per release, newest first.
 };
 
 /** Every file under `dir` whose name passes `keep`, skipping node_modules and .git. */
-function walk(dir, keep) {
+function walk(dir: string, keep: (name: string) => boolean): string[] {
   if (!existsSync(dir)) return [];
   return readdirSync(dir, { withFileTypes: true }).flatMap((entry) => {
     if (entry.name === "node_modules" || entry.name === ".git") return [];
@@ -82,7 +82,7 @@ function walk(dir, keep) {
 }
 
 /** Read, transform, and write back if changed. Returns the path when it changed. */
-function edit(path, transform, dryRun) {
+function edit(path: string, transform: (text: string) => string, dryRun: boolean): string | null {
   const before = readFileSync(path, "utf8");
   const after = transform(before);
   if (after === before) return null;
@@ -91,13 +91,13 @@ function edit(path, transform, dryRun) {
 }
 
 /** Whether this checkout's origin is the template repository itself. */
-function isTemplateItself() {
+function isTemplateItself(): boolean {
   const origin = spawnSync("git", ["remote", "get-url", "origin"], { cwd: ROOT, encoding: "utf8" });
   const slug = `${current.ORG_NAME}/${current.REPO_NAME}`.toLowerCase();
   return origin.status === 0 && origin.stdout.trim().toLowerCase().replace(/\.git$/, "").endsWith(slug);
 }
 
-function main(argv) {
+function main(argv: readonly string[]): number {
   const flags = parseArgs(argv);
   if (flags.help) {
     process.stdout.write(`${HELP}\n`);
@@ -112,14 +112,14 @@ function main(argv) {
   const next = identityFor(flags);
   const nextPrefix = `${current.idPart(next.org)}_${current.idPart(next.repo)}`;
   const dryRun = Boolean(flags.dryRun);
-  const pairs = [
+  const pairs: [string, string][] = [
     [`${current.TOOL_PREFIX}_`, `${nextPrefix}_`],
     [`${current.ORG_NAME}/${current.REPO_NAME}`, `${next.org}/${next.repo}`],
     [current.SERVER_ID, next.serverId],
   ];
 
-  const changed = [];
-  const removed = [];
+  const changed: (string | null)[] = [];
+  const removed: string[] = [];
 
   for (const path of TEMPLATE_ONLY.map((p) => join(ROOT, p)).filter(existsSync)) {
     if (!dryRun) rmSync(path, { force: true });
@@ -136,7 +136,7 @@ function main(argv) {
     }
   }
 
-  changed.push(edit(join(ROOT, "src/identity.js"), (text) => rewriteIdentity(text, next), dryRun));
+  changed.push(edit(join(ROOT, "src/identity.ts"), (text) => rewriteIdentity(text, next), dryRun));
   changed.push(edit(join(ROOT, "package.json"), (text) => rewritePackage(text, next), dryRun));
   if (existsSync(join(ROOT, "package-lock.json"))) {
     changed.push(
@@ -169,7 +169,10 @@ function main(argv) {
   if (dryRun) return 0;
 
   // Boot the surface: a prefix that pushes an ID past 64 characters fails here, by name.
-  const check = spawnSync(process.execPath, [join(ROOT, "src/cli.js"), "tools"], { encoding: "utf8" });
+  const check = spawnSync(process.execPath, ["--import", "tsx", join(ROOT, "src/cli.ts"), "tools"], {
+    cwd: ROOT,
+    encoding: "utf8",
+  });
   if (check.status !== 0) {
     process.stderr.write(`\nThe tool list no longer builds:\n${check.stderr}`);
     return 1;
@@ -181,6 +184,6 @@ function main(argv) {
 try {
   process.exitCode = main(process.argv.slice(2));
 } catch (error) {
-  process.stderr.write(`${error.message}\n\n${HELP}\n`);
+  process.stderr.write(`${error instanceof Error ? error.message : String(error)}\n\n${HELP}\n`);
   process.exitCode = 2;
 }

@@ -1,4 +1,4 @@
-import express from "express";
+import express, { type ErrorRequestHandler, type Express } from "express";
 import { StreamableHTTPServerTransport } from "@modelcontextprotocol/sdk/server/streamableHttp.js";
 import {
   hostHeaderValidation,
@@ -34,7 +34,14 @@ import { version } from "../version.js";
  * The previous implementation enforced this by counting chunks as they arrived and
  * throwing past the limit. The same number, declared rather than counted.
  */
-export const BODY_LIMIT_BYTES = 4 * 1024 * 1024;
+/** What `createApp` takes; every field has a safe default. */
+export interface AppOptions {
+  readonly token?: string;
+  readonly allowedHosts?: readonly string[];
+  readonly local?: boolean;
+}
+
+export const BODY_LIMIT_BYTES: number = 4 * 1024 * 1024;
 
 /**
  * Build the HTTP application.
@@ -52,15 +59,12 @@ export const BODY_LIMIT_BYTES = 4 * 1024 * 1024;
  * built without the token check, and with the localhost `Host` allow-list unless
  * `allowedHosts` names one. It defaults to `false`, so leaving it out can never turn the
  * check off.
- *
- * @param {{ token?: string, allowedHosts?: readonly string[], local?: boolean }} [options]
- * @returns {import("express").Express}
  */
 export function createApp({
   token = configuredToken(),
   allowedHosts = loadConfig().allowedHosts,
   local = false,
-} = {}) {
+}: AppOptions = {}): Express {
   const problem = tokenProblem(token, { required: !local });
   if (problem) {
     throw new Error(`Refusing to build the HTTP app: ${problem}.`);
@@ -182,7 +186,7 @@ export function createApp({
    * Registered last, and declared with four arguments, because that is how express
    * recognises an error handler rather than ordinary middleware.
    */
-  app.use((error, _req, res, next) => {
+  const onError: ErrorRequestHandler = (error, _req, res, next) => {
     if (res.headersSent) {
       next(error);
       return;
@@ -194,7 +198,8 @@ export function createApp({
     }
 
     rpcError(res, 500, -32603, String(error?.message ?? error));
-  });
+  };
+  app.use(onError);
 
   return app;
 }

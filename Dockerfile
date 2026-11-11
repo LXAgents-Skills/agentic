@@ -1,12 +1,21 @@
 # syntax=docker/dockerfile:1
 
-# The payload is a directory of markdown and a few kilobytes of JavaScript.
-# There is no build step, so this is a single stage: a builder stage would copy
-# the same files twice to produce a smaller context, not a smaller image.
+# The payload is a directory of markdown and a few kilobytes of JavaScript compiled
+# from TypeScript. Two stages: the first installs the dev dependencies and runs
+# `tsc`, the second carries only `dist/`, `content/` and the runtime dependencies,
+# so the compiler and the sources never reach the image.
+FROM node:22-alpine AS build
+WORKDIR /build
+COPY package.json package-lock.json tsconfig.json ./
+RUN npm ci --ignore-scripts
+COPY src ./src
+RUN npm run build
+
 FROM node:22-alpine
 
-# Lifecycle scripts are disabled. The package declares none, and running them
-# by default is supply-chain risk with nothing to offset it. `--omit=dev` keeps
+# Lifecycle scripts are disabled. The package's own `prepare` is the build, which
+# the first stage already ran, and running dependency scripts by default is
+# supply-chain risk with nothing to offset it. `--omit=dev` keeps
 # the test-only tree out of the image; `.dockerignore` already excludes the
 # test files themselves, so this image cannot run its own suite.
 #
@@ -20,13 +29,13 @@ RUN npm ci --ignore-scripts --omit=dev
 
 # `content/` is the product. It is copied, not generated, and it is the only
 # thing in this image that a change to the repository is expected to alter.
-COPY src ./src
+COPY --from=build /build/dist ./dist
 COPY content ./content
 
 # Not root. The process reads files and answers JSON-RPC, and nothing else.
 USER node
 
-# 3000 is `src/index.js`'s default, and `PORT` overrides it at runtime. The
+# 3000 is the server's default, and `PORT` overrides it at runtime. The
 # interface is `HOST`, which also defaults to 0.0.0.0 - every IPv4 interface.
 #
 # EXPOSE documents the port; it does not publish it. `docker run -p 3000:3000 …`
@@ -58,4 +67,4 @@ EXPOSE 3000
 # this machine. The Host allow-list is off unless it is set, and the server says
 # so on startup. See wiki/environments/env.md.
 ENV MCP_TRANSPORT=http
-ENTRYPOINT ["node", "src/index.js"]
+ENTRYPOINT ["node", "dist/index.js"]
