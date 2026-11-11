@@ -63,3 +63,10 @@ and audit.
 ### Task 1 — plan/typescript
 
 Landed: this record and its row in `memory-index.md`.
+
+### Task 2 — build/dependencies
+
+Landed. The runtime dependencies are at their latest versions: `@modelcontextprotocol/sdk`
+^1.32.2, `express` ^5.3.0 and `zod` ^4.6.7. The dev dependencies are `typescript` ^7.0.2,
+`@types/node` ^26.6.6, `tsx` ^4.23.15 and `@types/express` ^5.0.6. `npm audit` found 0
+vulnerabilities and `npm outdated` is empty. The JavaScript suite still passes, 43 of 43.
