@@ -1,13 +1,13 @@
 {
-  "name": "@lxagents-skills/template",
-  "version": "0.1.0",
+  "name": "@lxagents-skills/agentic",
+  "version": "0.0.0",
   "private": true,
-  "description": "Template for LXAgents Skill MCP servers: every markdown file in content/ is served read-only as its own tool.",
+  "description": "The agentic instruction set, served read-only.",
   "type": "module",
   "main": "src/index.js",
   "bin": {
-    "lxagents-template": "src/cli.js",
-    "lxagents-template-server": "src/index.js"
+    "lxagents-agentic": "src/cli.js",
+    "lxagents-agentic-server": "src/index.js"
   },
   "files": [
     "src",
@@ -31,18 +31,17 @@
   "author": "LXAgents",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/LXAgents-Skills/template.git"
+    "url": "git+https://github.com/LXAgents-Skills/agentic.git"
   },
-  "homepage": "https://github.com/LXAgents-Skills/template#readme",
+  "homepage": "https://github.com/LXAgents-Skills/agentic#readme",
   "bugs": {
-    "url": "https://github.com/LXAgents-Skills/template/issues"
+    "url": "https://github.com/LXAgents-Skills/agentic/issues"
   },
   "keywords": [
     "mcp",
     "model-context-protocol",
     "agent-instructions",
-    "lxagents",
-    "template"
+    "lxagents"
   ],
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.30.0",

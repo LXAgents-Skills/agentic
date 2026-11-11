@@ -10,17 +10,16 @@
 export const ORG_NAME = "LXAgents-Skills";
 
 /** The repository name, as written there. */
-export const REPO_NAME = "template";
+export const REPO_NAME = "agentic";
 
 /** The server's name in `initialize`, `/healthz` and every log line. */
-export const SERVER_ID = "lxagents-template";
+export const SERVER_ID = "lxagents-agentic";
 
 /** A human-readable title for clients that show one. */
-export const SERVER_TITLE = "LXAgents Template";
+export const SERVER_TITLE = "LXAgents Agentic";
 
 /** One sentence on what the set is; the server's `instructions` open with it. */
-export const SERVER_SUMMARY =
-  "An example Skill MCP instruction set, served read-only. Replace content/ with your own set.";
+export const SERVER_SUMMARY = "The agentic instruction set, served read-only.";
 
 /**
  * A name as it appears inside a tool ID: lowercase, and every run of anything that is not a

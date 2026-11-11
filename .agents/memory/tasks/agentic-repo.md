@@ -69,3 +69,13 @@ file in `content/` is one purpose and one MCP tool. It is built from
 ### Task 1 — plan/agentic-repo
 
 Landed: this record and its row in `memory-index.md`.
+
+### Task 2 — feat/init
+
+Landed. The tree was replaced by template master `a1c909d` (the 0.0.0 pin), then
+`npm run init -- --org LXAgents-Skills --repo agentic` renamed it: server ID
+`lxagents-agentic`, prefix `lxagents_skills_agentic_`, package `@lxagents-skills/agentic` at
+`0.0.0`, and removed the template's history, version rule and version test. This record and
+its index row were restored after `init` cleared `.agents/memory/tasks/`. The repository map
+still listed the deleted `test/template-version.test.js`; that row was removed by hand (an
+`init` gap in the template). 38 tests pass. `content/example/` is still served; task 3 replaces it.

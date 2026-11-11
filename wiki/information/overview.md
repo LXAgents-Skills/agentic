@@ -1,15 +1,10 @@
 # Overview
 
-`LXAgents-Skills/template` is a read-only Skill MCP server. Every markdown file in `content/` is
-served as its own tool, named `lxagents_skills_template_{base}`, and none of them takes an
-argument. A client reads `lxagents_skills_template_automation` first; it lists every other tool
+`LXAgents-Skills/agentic` is a read-only Skill MCP server. Every markdown file in `content/` is
+served as its own tool, named `lxagents_skills_agentic_{base}`, and none of them takes an
+argument. A client reads `lxagents_skills_agentic_automation` first; it lists every other tool
 and the condition that activates it.
 
-<!-- template-only -->
-It is also the starting point for every new Skill MCP repository in the organization:
-create a repository from it on GitHub, run `npm run init`, and replace `content/`. See
-[Create a new repository](../guides/create-a-new-repository.md).
-<!-- /template-only -->
 
 | Surface | How |
 |---|---|

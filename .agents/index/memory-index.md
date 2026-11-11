@@ -7,5 +7,4 @@ description: Router over .agents/memory/ - one row per task, decision, or state 
 
 | File | Scope |
 |---|---|
-| [`tasks/template-repo.md`](../memory/tasks/template-repo.md) | Building the template repository itself (plan, branches, decisions) |
 | [`tasks/agentic-repo.md`](../memory/tasks/agentic-repo.md) | Bootstrapping this repository from the template: the five agentic tools (plan, branches, decisions) |

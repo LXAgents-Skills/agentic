@@ -11,13 +11,13 @@ Node.js 20 or newer, and git. There is no build step.
 PowerShell:
 
 ```powershell
-git clone https://github.com/LXAgents-Skills/template.git lxagents-template; cd lxagents-template; npm install; npm test
+git clone https://github.com/LXAgents-Skills/agentic.git lxagents-agentic; cd lxagents-agentic; npm install; npm test
 ```
 
 bash:
 
 ```bash
-git clone https://github.com/LXAgents-Skills/template.git lxagents-template && cd lxagents-template && npm install && npm test
+git clone https://github.com/LXAgents-Skills/agentic.git lxagents-agentic && cd lxagents-agentic && npm install && npm test
 ```
 
 ## Register it with a client
@@ -27,10 +27,10 @@ git clone https://github.com/LXAgents-Skills/template.git lxagents-template && c
 ```json
 {
   "mcpServers": {
-    "lxagents-template": {
+    "lxagents-agentic": {
       "command": "node",
       "args": ["src/index.js"],
-      "cwd": "C:/path/to/lxagents-template"
+      "cwd": "C:/path/to/lxagents-agentic"
     }
   }
 }
@@ -39,7 +39,7 @@ git clone https://github.com/LXAgents-Skills/template.git lxagents-template && c
 Claude Code, from the clone (PowerShell):
 
 ```powershell
-claude mcp add lxagents-template -- node "$PWD\src\index.js"
+claude mcp add lxagents-agentic -- node "$PWD\src\index.js"
 ```
 
 stdio needs no token and no environment variable.
@@ -53,7 +53,7 @@ npm run start:http
 This binds `127.0.0.1:3000` and needs no token; only `localhost` `Host` headers are answered.
 
 ```json
-{ "mcpServers": { "lxagents-template": { "type": "http", "url": "http://localhost:3000/mcp" } } }
+{ "mcpServers": { "lxagents-agentic": { "type": "http", "url": "http://localhost:3000/mcp" } } }
 ```
 
 ### HTTP as a server

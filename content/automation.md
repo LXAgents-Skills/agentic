@@ -19,4 +19,4 @@ Read this once, at the start of every session. It is the only tool you read unpr
 
 ## Example
 
-- `lxagents_skills_template_example_guide` — you are trying out this template, or want to see the shape every served file takes.
+- `lxagents_skills_agentic_example_guide` — you are trying out this template, or want to see the shape every served file takes.
