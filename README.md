@@ -1,6 +1,6 @@
 # LXAgents-Skills/agentic
 
-A read-only Skill MCP server for **fully autonomous, agentic workflows**. An agent that
+A read-only Skill MCP server, written in TypeScript, for **fully autonomous, agentic workflows**. An agent that
 connects to it gets the instructions to decide, verify, merge and hand over work without
 waiting for a human, and the failsafes that keep that safe.
 
@@ -81,7 +81,9 @@ Bash or Zsh:
 git clone https://github.com/LXAgents-Skills/agentic.git lxagents-agentic && cd lxagents-agentic && npm install && npm test
 ```
 
-Then `npm run tools` lists every tool, and `npm start` serves them over stdio.
+`npm install` also compiles the TypeScript in `src/` to `dist/`. Then `npm run tools` lists every
+tool, and `npm start` serves them over stdio from `dist/index.js`. Point a client at
+`node dist/index.js` in the clone.
 
 stdio needs no token. `npm run start:http` serves HTTP on `127.0.0.1:3000`, also without one.
 HTTP on any other address needs `MCP_AUTH_TOKEN`.

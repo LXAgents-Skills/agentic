@@ -123,3 +123,24 @@ answered.
 Results: 46 tests pass. Before the move it was 42 tests; the old count of 43 included
 `helpers.js`, which node ran as a file. `npm run typecheck` is clean and `npm audit` found 0
 vulnerabilities.
+
+### Task 4 — docs/typescript
+
+Landed. Every page that named a `src/`, `test/` or `scripts/` `.js` file now names the `.ts`
+file. Commands that run the server now run `dist/`: `node dist/index.js`, `node dist/cli.js`,
+and the client config `args: ["dist/index.js"]`.
+
+- `AGENTS.md` and the install guide say Node 22+, strict TypeScript compiled by `tsc`, and that
+  `npm install` builds.
+- The architecture page has a *Source and build* section.
+- The Docker page describes the two stages.
+- The repository map lists `tsconfig.json`, `tsconfig.check.json` and `dist/`.
+- In `.agents/rules/repository.md`:
+  - "A build step" under *What must not be introduced* becomes "a build step other than
+    `tsc`, or a committed `dist/`". This is the owner's instruction, set aside as recorded
+    above.
+  - A new *TypeScript, compiled to `dist/`* section covers `.js` import specifiers, no `any`,
+    `tsx` for tests and `init`, and the `dist/` tests.
+  - The command block lists `build` and `typecheck`.
+
+46 tests pass.
