@@ -1,6 +1,6 @@
 {
   "name": "@lxagents-skills/agentic",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "private": true,
   "description": "Instructions for fully autonomous agentic workflows, one purpose per tool, served read-only.",
   "type": "module",

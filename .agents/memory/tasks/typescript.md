@@ -5,7 +5,7 @@ description: Migrating LXAgents-Skills/agentic from JavaScript to strict TypeScr
 
 # Task: migrate agentic to TypeScript
 
-**Status: in progress.**
+**Status: done.**
 
 The owner asked for every Node.js repository in the organization to move to TypeScript,
 with one thread per repository. This is the agentic one. It follows the owner's checklist:
@@ -39,11 +39,11 @@ and audit.
 
 | # | Task | Branch | PR |
 |---|---|---|---|
-| 1 | This record | `plan/typescript` | |
-| 2 | Latest dependencies, TS tooling, audit | `build/dependencies` | |
-| 3 | tsconfig, conversion, package.json | `refactor/typescript` | |
-| 4 | README, wiki, Dockerfile, rules | `docs/typescript` | |
-| 5 | Version 0.1.1, changelog, close this record | `release/0.1.1` | |
+| 1 | This record | `plan/typescript` | #6 |
+| 2 | Latest dependencies, TS tooling, audit | `build/dependencies` | #7 |
+| 3 | tsconfig, conversion, package.json | `refactor/typescript` | #8 |
+| 4 | README, wiki, Dockerfile, rules | `docs/typescript` | #9 |
+| 5 | Version 0.1.1, changelog, close this record | `release/0.1.1` | #10 |
 
 ## Rules set aside, by the owner's instruction
 
@@ -144,3 +144,9 @@ and the client config `args: ["dist/index.js"]`.
   - The command block lists `build` and `typecheck`.
 
 46 tests pass.
+
+### Task 5 — release/0.1.1
+
+Landed. `package.json` and `package-lock.json` are at `0.1.1`.
+`wiki/logs/0/1/1/CHANGELOG.md` is written, with the client path change called out, and has its
+row in `logs-index.md`. The `PR` column is filled in (#6 to #10) and this record is closed.
