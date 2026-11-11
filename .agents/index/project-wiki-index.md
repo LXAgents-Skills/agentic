@@ -10,6 +10,7 @@ description: Index of wiki/ - the human documentation tree, excluding wiki/logs/
 | File | Purpose |
 |---|---|
 | [`../../wiki/information/overview.md`](../../wiki/information/overview.md) | What this repository is and what it serves. |
+| [`../../wiki/information/agentic-pipeline.md`](../../wiki/information/agentic-pipeline.md) | How the five agentic tools run together, their failsafes, and where a run's work state lives. |
 | [`../../wiki/information/architecture.md`](../../wiki/information/architecture.md) | How a request reaches a file: entry point, transports, the derived surface. |
 | [`../../wiki/guides/add-a-tool.md`](../../wiki/guides/add-a-tool.md) | Add a served file, give it an ID, list it in the hub, and test it. |
 | [`../../wiki/guides/install-by-git-clone.md`](../../wiki/guides/install-by-git-clone.md) | Install the server from a clone and register it with a client. |

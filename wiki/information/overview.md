@@ -5,6 +5,10 @@ served as its own tool, named `lxagents_skills_agentic_{base}`, and none of them
 argument. A client reads `lxagents_skills_agentic_automation` first; it lists every other tool
 and the condition that activates it.
 
+The set is for **fully autonomous, agentic workflows**. It has five tools: a workspace
+resolver, a decision maker, a self corrector, an auto merger and a state manager. Each one
+carries a failsafe, and all of them keep their work state outside the repository. See
+[The agentic pipeline](agentic-pipeline.md).
 
 | Surface | How |
 |---|---|

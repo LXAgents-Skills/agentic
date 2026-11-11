@@ -49,6 +49,7 @@ The base gets whatever the prefix leaves: `64 - len(TOOL_PREFIX) - 1`.
 
 | Prefix | Length | Room for the base |
 |---|---|---|
+| `lxagents_skills_agentic` | 23 | 40 |
 | `lxagents_skills_template` | 24 | 39 |
 | `lxagents_skills_security` | 24 | 39 |
 | `lxagents_skills_shared_instruction` | 34 | 29 |
