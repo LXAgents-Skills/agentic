@@ -5,6 +5,7 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { test } from "node:test";
 import { ROOT } from "../src/paths.js";
+import { TOOL_PREFIX } from "../src/identity.js";
 import { parseArgs } from "../scripts/init/args.js";
 import { identityFor } from "../scripts/init/identity.js";
 import { replaceAll, rewriteIdentity, rewritePackage, stripTemplateOnly } from "../scripts/init/rewrite.js";
@@ -75,8 +76,8 @@ test("init turns a copy of the template into a new repository that passes its ow
     assert.match(init.stdout, /acme_labs_field_notes_automation/);
 
     const hub = readFileSync(join(copy, "content/automation.md"), "utf8");
-    assert.match(hub, /`acme_labs_field_notes_example_guide`/);
-    assert.doesNotMatch(hub, /lxagents_skills_template_/);
+    assert.match(hub, /`acme_labs_field_notes_[a-z0-9_]+`/);
+    assert.ok(!hub.includes(`${TOOL_PREFIX}_`), "the hub keeps the old tool prefix");
     assert.match(readFileSync(join(copy, "AGENTS.md"), "utf8"), /`Acme-Labs\/field-notes`/);
     assert.equal(existsSync(join(copy, ".agents/memory/tasks")), false, "the template's history is cleared");
     for (const file of ["wiki/guides/create-a-new-repository.md", ".agents/rules/template-version.md", "test/template-version.test.js"]) {

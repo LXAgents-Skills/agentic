@@ -23,7 +23,11 @@ HTTP on any other address needs `MCP_AUTH_TOKEN`.
 | Tool | Serves |
 |---|---|
 | `lxagents_skills_agentic_automation` | `content/automation.md` — the hub |
-| `lxagents_skills_agentic_example_guide` | `content/example/example-guide.md` |
+| `lxagents_skills_agentic_workspace` | `content/agentic/workspace.md` |
+| `lxagents_skills_agentic_decision_maker` | `content/agentic/decision-maker.md` |
+| `lxagents_skills_agentic_self_corrector` | `content/agentic/self-corrector.md` |
+| `lxagents_skills_agentic_auto_merger` | `content/agentic/auto-merger.md` |
+| `lxagents_skills_agentic_state_manager` | `content/agentic/state-manager.md` |
 
 Each ID is `{org}_{repo}_{base}`, at most 64 characters. No tool takes an argument.
 

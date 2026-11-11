@@ -79,3 +79,25 @@ Landed. The tree was replaced by template master `a1c909d` (the 0.0.0 pin), then
 its index row were restored after `init` cleared `.agents/memory/tasks/`. The repository map
 still listed the deleted `test/template-version.test.js`; that row was removed by hand (an
 `init` gap in the template). 38 tests pass. `content/example/` is still served; task 3 replaces it.
+
+### Task 3 — feat/agentic-tools
+
+Landed. `content/example/` removed; five tools in `content/agentic/`: `workspace`,
+`decision-maker`, `self-corrector`, `auto-merger`, `state-manager`, IDs 33 to 38 characters.
+`content/automation.md` lists all five under three headings, with the workspace first.
+`SERVER_SUMMARY` and the package description now say what the set is. The README tool table
+and the add-a-tool example name the new files.
+
+`test/agentic-content.test.js` (5 tests) checks each tool is served, defines its failsafe,
+writes its work state to `{workspace}/agentic/{org}/{repo}/`, and that no tool names
+`.agents/memory/` except to forbid it; that last test was seen to fail on a planted
+"Write to `.agents/memory/state/run.md`" line. The template's init end-to-end test asserted
+`example_guide` and the template's prefix, which stop being true once a repository has its
+own content; it now asserts any `acme_labs_field_notes_` ID and the absence of the current
+`TOOL_PREFIX` (also a template gap, reported). 43 tests pass.
+
+Decisions: "merge all branches" means the run's own stack only. The decision maker
+escalates instead of choosing when an option is irreversible (production, data or history
+deletion, spending, outside messages, secrets). The auto merger's override covers the asking,
+not the hard limits: no merge on red or pending checks, no branch-protection bypass, no force
+push of the default branch.

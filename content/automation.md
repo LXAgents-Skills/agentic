@@ -16,7 +16,18 @@ Read this once, at the start of every session. It is the only tool you read unpr
 * If a tool named here is not in your tool list, say so and work from what you have. Never
   rebuild a missing tool from memory.
 * No tool takes an argument.
+* Work state from these tools is never written into a repository.
 
-## Example
+## Before writing any work state
 
-- `lxagents_skills_agentic_example_guide` — you are trying out this template, or want to see the shape every served file takes.
+- `lxagents_skills_agentic_workspace` — a run is about to write its first decision, handover or escalation; read it once per run, before any tool below writes.
+
+## During a run
+
+- `lxagents_skills_agentic_state_manager` — a run starts, a step ends, work passes to another agent or tool, or the run stops or escalates.
+- `lxagents_skills_agentic_decision_maker` — you face a question, an ambiguity or a blocker you would otherwise ask the user about.
+- `lxagents_skills_agentic_self_corrector` — a task is built and you are about to call it done, commit it as done, or hand it to a merge.
+
+## Landing the work
+
+- `lxagents_skills_agentic_auto_merger` — the user or the project's standing instructions direct the run to merge its own branches without review, and every branch has passed its done criteria.

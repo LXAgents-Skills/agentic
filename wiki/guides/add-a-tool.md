@@ -9,7 +9,7 @@ without its folder or `.md`, lowercased, with `-` turned into `_`.
 
 | File | ID in `LXAgents-Skills/agentic` |
 |---|---|
-| `content/example/example-guide.md` | `lxagents_skills_agentic_example_guide` |
+| `content/agentic/decision-maker.md` | `lxagents_skills_agentic_decision_maker` |
 | `content/git/commit-conventions.md` | `lxagents_skills_agentic_commit_conventions` |
 
 An ID is at most 64 characters. If yours is longer, or another folder already has a file with
