@@ -5,7 +5,7 @@ description: An example served file — shows the frontmatter and shape every fi
 
 # Example Guide
 
-This file is served as the tool `lxagents_skills_template_example_guide`. Its ID comes from
+This file is served as the tool `lxagents_skills_agentic_example_guide`. Its ID comes from
 its filename, `example-guide.md`, behind the repository's `{org}_{repo}` prefix.
 
 Every file in `content/` follows the same shape:

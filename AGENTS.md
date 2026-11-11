@@ -1,16 +1,9 @@
 # AGENTS.md
 
-This repository is `LXAgents-Skills/template`: a Skill MCP server, Node.js 20+, ESM, no build
+This repository is `LXAgents-Skills/agentic`: a Skill MCP server, Node.js 20+, ESM, no build
 step, that serves every markdown file in [`content/`](content/) read-only as its own tool.
-Server ID `lxagents-template`, tool prefix `lxagents_skills_template_`.
+Server ID `lxagents-agentic`, tool prefix `lxagents_skills_agentic_`.
 
-<!-- template-only -->
-**It is also the template every new Skill MCP repository in the organization starts from.**
-A new repository is created from it on GitHub, renamed with `npm run init`, and filled with
-its own `content/` — see [`wiki/guides/create-a-new-repository.md`](wiki/guides/create-a-new-repository.md).
-Everything outside this block is written so it stays true after `init` renames it; `init`
-deletes this block.
-<!-- /template-only -->
 
 ## Two sets, two roles
 

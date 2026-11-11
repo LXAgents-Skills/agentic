@@ -7,10 +7,10 @@ Every markdown file in `content/` is a tool. Adding one takes a file and a row i
 The filename becomes the tool ID: `{org}_{repo}_{base}`, where the base is the filename
 without its folder or `.md`, lowercased, with `-` turned into `_`.
 
-| File | ID in `LXAgents-Skills/template` |
+| File | ID in `LXAgents-Skills/agentic` |
 |---|---|
-| `content/example/example-guide.md` | `lxagents_skills_template_example_guide` |
-| `content/git/commit-conventions.md` | `lxagents_skills_template_commit_conventions` |
+| `content/example/example-guide.md` | `lxagents_skills_agentic_example_guide` |
+| `content/git/commit-conventions.md` | `lxagents_skills_agentic_commit_conventions` |
 
 An ID is at most 64 characters. If yours is longer, or another folder already has a file with
 the same name, pick a shorter or more specific filename, or give the file a base name in
@@ -37,7 +37,7 @@ description: Conventional Commits for commit messages — format, scope, body, a
 Add one line to `content/automation.md`, under the group where it fires:
 
 ```markdown
-- `lxagents_skills_template_commit_conventions` — before you write a commit message.
+- `lxagents_skills_agentic_commit_conventions` — before you write a commit message.
 ```
 
 The part after ` — ` is the condition: the moment the tool is needed, not its title.

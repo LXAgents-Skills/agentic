@@ -16,14 +16,6 @@ description: Index of wiki/ - the human documentation tree, excluding wiki/logs/
 | [`../../wiki/environments/env.md`](../../wiki/environments/env.md) | Every environment variable the server reads. |
 | [`../../wiki/environments/docker.md`](../../wiki/environments/docker.md) | Building and running the container image. |
 
-<!-- template-only -->
-Template only — `npm run init` deletes this page and this table:
-
-| File | Purpose |
-|---|---|
-| [`../../wiki/guides/create-a-new-repository.md`](../../wiki/guides/create-a-new-repository.md) | Start a new Skill MCP repository from this template. |
-
-<!-- /template-only -->
 | Child index | Scope |
 |---|---|
 | [`logs-index.md`](logs-index.md) | `wiki/logs/` |

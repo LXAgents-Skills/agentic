@@ -1,21 +1,16 @@
-# LXAgents-Skills/template
+# LXAgents-Skills/agentic
 
 A read-only Skill MCP server: every markdown file in `content/` is served as its own tool.
 
-- **Server ID:** `lxagents-template`
-- **Tool prefix:** `lxagents_skills_template_`
-- **Start here:** `lxagents_skills_template_automation` lists every tool and when to call it.
+- **Server ID:** `lxagents-agentic`
+- **Tool prefix:** `lxagents_skills_agentic_`
+- **Start here:** `lxagents_skills_agentic_automation` lists every tool and when to call it.
 
-<!-- template-only -->
-**This is the template for new Skill MCP repositories.** Create a repository from it on GitHub,
-then run `npm run init -- --org <org> --repo <repo>` — see
-[Create a new repository](wiki/guides/create-a-new-repository.md).
-<!-- /template-only -->
 
 ## Quick start
 
 ```powershell
-git clone https://github.com/LXAgents-Skills/template.git lxagents-template; cd lxagents-template; npm install; npm test
+git clone https://github.com/LXAgents-Skills/agentic.git lxagents-agentic; cd lxagents-agentic; npm install; npm test
 npm run tools
 npm start
 ```
@@ -27,8 +22,8 @@ HTTP on any other address needs `MCP_AUTH_TOKEN`.
 
 | Tool | Serves |
 |---|---|
-| `lxagents_skills_template_automation` | `content/automation.md` — the hub |
-| `lxagents_skills_template_example_guide` | `content/example/example-guide.md` |
+| `lxagents_skills_agentic_automation` | `content/automation.md` — the hub |
+| `lxagents_skills_agentic_example_guide` | `content/example/example-guide.md` |
 
 Each ID is `{org}_{repo}_{base}`, at most 64 characters. No tool takes an argument.
 
