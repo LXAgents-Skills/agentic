@@ -1,7 +1,7 @@
 # AGENTS.md
 
-This repository is `LXAgents-Skills/agentic`: a Skill MCP server, Node.js 20+, ESM, no build
-step, that serves every markdown file in [`content/`](content/) read-only as its own tool.
+This repository is `LXAgents-Skills/agentic`: a Skill MCP server, Node.js 22+, ESM, strict
+TypeScript compiled by `tsc` to `dist/`, that serves every markdown file in [`content/`](content/) read-only as its own tool.
 Server ID `lxagents-agentic`, tool prefix `lxagents_skills_agentic_`. The set serves fully
 autonomous, agentic workflows, and the work state its tools describe is written to a
 workspace outside the repository, never to `.agents/memory/`.
