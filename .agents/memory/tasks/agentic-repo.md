@@ -5,7 +5,7 @@ description: Bootstrapping LXAgents-Skills/agentic from the template - five SRP 
 
 # Task: bootstrap the agentic Skill MCP repository
 
-**Status: in progress.**
+**Status: done.**
 
 `LXAgents-Skills/agentic` serves instructions for fully autonomous, agentic workflows. One
 file in `content/` is one purpose and one MCP tool. It is built from
@@ -49,11 +49,11 @@ file in `content/` is one purpose and one MCP tool. It is built from
 
 | # | Task | Branch | PR |
 |---|---|---|---|
-| 1 | This record | `plan/agentic-repo` | |
-| 2 | Refresh from the template and run `init` | `feat/init` | |
-| 3 | The five tools, the hub, the content test | `feat/agentic-tools` | |
-| 4 | README, wiki, agent map | `docs/agentic-pipeline` | |
-| 5 | Version 0.1.0, changelog, close this record | `release/0.1.0` | |
+| 1 | This record | `plan/agentic-repo` | #1 |
+| 2 | Refresh from the template and run `init` | `feat/init` | #2 |
+| 3 | The five tools, the hub, the content test | `feat/agentic-tools` | #3 |
+| 4 | README, wiki, agent map | `docs/agentic-pipeline` | #4 |
+| 5 | Version 0.1.0, changelog, close this record | `release/0.1.0` | #5 |
 
 ## Decisions taken without the owner
 
@@ -111,3 +111,11 @@ PowerShell and Bash. New human page `wiki/information/agentic-pipeline.md` with 
 `overview.md` and `AGENTS.md` say what the set is and where its work state goes; the tool-ID
 budget table has the `lxagents_skills_agentic` row (23 characters, 40 left for the base).
 43 tests pass.
+
+### Task 5 — release/0.1.0
+
+Landed. `package.json` and `package-lock.json` (top level and `packages[""]`) at `0.1.0`, the
+version the owner's spec names. `wiki/logs/0/1/0/CHANGELOG.md` and its row in
+`logs-index.md`. The `PR` column is filled (#1 to #5). This record is closed. The PRs are
+rebased onto `master` and merged in order. No tag and no npm publish, since the package is
+private and installed by git clone.
