@@ -101,3 +101,13 @@ escalates instead of choosing when an option is irreversible (production, data o
 deletion, spending, outside messages, secrets). The auto merger's override covers the asking,
 not the hard limits: no merge on red or pending checks, no branch-protection bypass, no force
 push of the default branch.
+
+### Task 4 — docs/agentic-pipeline
+
+Landed. README rewritten: the pipeline, the SRP design, the tool table, the failsafes
+(Decision Audit Trail, Measurable Done Criteria, Circuit Breaker, Conflict Resolution
+Protocol, hard limits, Handover Artifacts) and the workspace rule, with clone commands for
+PowerShell and Bash. New human page `wiki/information/agentic-pipeline.md` with its index row;
+`overview.md` and `AGENTS.md` say what the set is and where its work state goes; the tool-ID
+budget table has the `lxagents_skills_agentic` row (23 characters, 40 left for the base).
+43 tests pass.
