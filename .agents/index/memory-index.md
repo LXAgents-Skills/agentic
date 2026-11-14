@@ -9,3 +9,4 @@ description: Router over .agents/memory/ - one row per task, decision, or state 
 |---|---|
 | [`tasks/agentic-repo.md`](../memory/tasks/agentic-repo.md) | Bootstrapping this repository from the template: the five agentic tools (plan, branches, decisions) |
 | [`tasks/typescript.md`](../memory/tasks/typescript.md) | Migrating this repository to strict TypeScript compiled to `dist/` |
+| [`tasks/rust.md`](../memory/tasks/rust.md) | Migrating this repository to Rust on `rmcp` and `axum` |
