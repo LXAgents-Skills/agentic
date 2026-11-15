@@ -1,7 +1,8 @@
 # AGENTS.md
 
-This repository is `LXAgents-Skills/agentic`: a Skill MCP server, Node.js 22+, ESM, strict
-TypeScript compiled by `tsc` to `dist/`, that serves every markdown file in [`content/`](content/) read-only as its own tool.
+This repository is `LXAgents-Skills/agentic`: a Skill MCP server in Rust, built on the official
+MCP Rust SDK (`rmcp`) with `axum` for HTTP, compiled by cargo to one binary,
+`target/release/lxagents-agentic`, that serves every markdown file in [`content/`](content/) read-only as its own tool.
 Server ID `lxagents-agentic`, tool prefix `lxagents_skills_agentic_`. The set serves fully
 autonomous, agentic workflows, and the work state its tools describe is written to a
 workspace outside the repository, never to `.agents/memory/`.
@@ -79,11 +80,11 @@ and the condition for each, is in the automation tool, not here.
 * This repository's rules → `.agents/rules/{file}.md`. Routing → `.agents/index/{scope}-index.md`.
 * Agent knowledge → `.agents/wiki/{type}/{file}.md`. Memory → `.agents/memory/{type}/{file}.md`.
 * Human documentation → `wiki/{folder}/{file}.md`, no frontmatter. Releases → `wiki/logs/{Major}/{Minor}/{Patch}/`.
-* Server code → `src/`. The rename script → `scripts/`. Tests → `test/`.
+* Server code → `src/`. Tests → `tests/`.
 
 ## Version rule
 
-Never change the version without the user's approval: `package.json`, the release branch, and
+Never change the version without the user's approval: `Cargo.toml` (and `Cargo.lock`), the release branch, and
 a new `wiki/logs/` directory are all version claims. A release is a patch bump unless the user
 asks for more.
 

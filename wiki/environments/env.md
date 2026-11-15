@@ -1,22 +1,23 @@
 # Environment
 
-Every variable the server reads. None is needed for stdio.
+Every variable the server reads. None is needed for stdio. `lxagents-agentic` is the binary
+built at `target/release/lxagents-agentic`.
 
 | Variable | Default | Meaning |
 |---|---|---|
 | `MCP_TRANSPORT` | `stdio` | `stdio` or `http`. The Docker image sets `http`. |
 | `MCP_AUTH_TOKEN` | unset | Bearer token, 32+ characters. Required for HTTP unless `HOST` is loopback. Unused by stdio. |
-| `HOST` | `0.0.0.0` | HTTP interface. `npm run start:http` passes `127.0.0.1`. |
-| `PORT` | `3000` | HTTP port. |
+| `HOST` | `0.0.0.0` | HTTP interface. `serve --host 127.0.0.1` overrides it. |
+| `PORT` | `3000` | HTTP port. `serve --port N` overrides it. |
 | `MCP_ALLOWED_HOSTS` | unset | Comma-separated `Host` allow-list. Unset on loopback without a token means `localhost` only; unset otherwise means no `Host` check, and the server says so at startup. |
-| `MCP_CLUSTER_WORKERS` | one per CPU | HTTP worker processes. `1` forks nothing. |
+| `MCP_CLUSTER_WORKERS` | one per CPU | HTTP worker threads. `0` or `1` runs a single thread. |
 
 ## When the token is required
 
 | Run | Token |
 |---|---|
-| `npm start` (stdio) | Never read |
-| `npm run start:http` (`127.0.0.1`) | Optional; enforced if set |
+| `lxagents-agentic` (stdio) | Never read |
+| `lxagents-agentic serve --http --host 127.0.0.1` | Optional; enforced if set |
 | `HOST=0.0.0.0`, a container, a public host | Required: the server exits 1 without it |
 
 Make one with `openssl rand -hex 32`, or in PowerShell:

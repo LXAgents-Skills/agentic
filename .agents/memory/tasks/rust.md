@@ -101,3 +101,27 @@ Verification:
   answers `/healthz` with a token, and answers stdio with `-i`. The image is 123 MB. In this
   sandbox, the build needed the proxy's CA certificate added to a throwaway copy of the
   Dockerfile; the committed Dockerfile needs nothing extra.
+
+### Task 3 — docs/rust
+
+Landed. Every page that named a TypeScript file, an npm script or `node dist/...` now names
+the Rust file or the cargo command:
+
+- `README.md` and `wiki/guides/install-by-git-clone.md`: clone, then `cargo build --release`.
+  Clients run `target/release/lxagents-agentic` with no arguments. The install guide has a
+  *Coming from 0.1.1* section.
+- `AGENTS.md`: the Rust stack, `tests/`, and `Cargo.toml` as the version carrier.
+  `scripts/` is gone.
+- `.agents/rules/repository.md` is rewritten for cargo: where things go, the commands, and a
+  *Rust, one crate, one binary* section. *What must not be introduced* now forbids a build
+  step other than cargo and a committed `target/`.
+- `tool-ids.md`, `tool-authoring.md`, `automation-hub.md` and `http-auth.md` name the `.rs`
+  files and the Rust test files. The `OVERRIDE_BASES` example is Rust.
+- `.agents/wiki/context/repository-map.md` is rewritten for the Rust files.
+- `wiki/information/{architecture,overview}.md`, `wiki/environments/{docker,env}.md` and
+  `wiki/guides/add-a-tool.md` describe the build, the embedded set, and threads rather than
+  forked workers.
+
+`content/` is unchanged. The self corrector's generic advice to look in `package.json` is about
+any repository, not this one. The released 0.1.0 and 0.1.1 changelogs and the closed task
+records keep their history.
