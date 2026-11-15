@@ -1,6 +1,6 @@
 # LXAgents-Skills/agentic
 
-A read-only Skill MCP server, written in TypeScript, for **fully autonomous, agentic workflows**. An agent that
+A read-only Skill MCP server, written in Rust, for **fully autonomous, agentic workflows**. An agent that
 connects to it gets the instructions to decide, verify, merge and hand over work without
 waiting for a human, and the failsafes that keep that safe.
 
@@ -67,26 +67,32 @@ If none qualifies, the agent stops and asks.
 
 ## Quick start
 
-Install by cloning; the package is not published.
+Install by cloning; the crate is not published. You need git and Rust 1.88 or newer
+([rustup](https://rustup.rs)).
 
 PowerShell:
 
 ```powershell
-git clone https://github.com/LXAgents-Skills/agentic.git lxagents-agentic; cd lxagents-agentic; npm install; npm test
+git clone https://github.com/LXAgents-Skills/agentic.git lxagents-agentic; cd lxagents-agentic; cargo build --release; cargo test
 ```
 
 Bash or Zsh:
 
 ```bash
-git clone https://github.com/LXAgents-Skills/agentic.git lxagents-agentic && cd lxagents-agentic && npm install && npm test
+git clone https://github.com/LXAgents-Skills/agentic.git lxagents-agentic && cd lxagents-agentic && cargo build --release && cargo test
 ```
 
-`npm install` also compiles the TypeScript in `src/` to `dist/`. Then `npm run tools` lists every
-tool, and `npm start` serves them over stdio from `dist/index.js`. Point a client at
-`node dist/index.js` in the clone.
+`cargo build --release` compiles the server, with `content/` built into it, to one binary:
+`target/release/lxagents-agentic` (`lxagents-agentic.exe` on Windows). Point a client at that
+binary, with no arguments; it serves over stdio. `target/release/lxagents-agentic tools` lists
+every tool.
 
-stdio needs no token. `npm run start:http` serves HTTP on `127.0.0.1:3000`, also without one.
-HTTP on any other address needs `MCP_AUTH_TOKEN`.
+stdio needs no token. `target/release/lxagents-agentic serve --http --host 127.0.0.1` serves
+HTTP on `127.0.0.1:3000`, also without one. HTTP on any other address needs `MCP_AUTH_TOKEN`.
+
+The server is built on the official MCP Rust SDK,
+[`rmcp`](https://github.com/modelcontextprotocol/rust-sdk), with [`axum`](https://github.com/tokio-rs/axum)
+for HTTP.
 
 ## Documentation
 

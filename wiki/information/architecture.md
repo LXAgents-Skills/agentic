@@ -2,21 +2,27 @@
 
 ## Source and build
 
-The server is strict TypeScript in `src/`. `npm run build` (`tsc`) compiles it to `dist/`, which
-is what `npm start`, the `bin` entries and the Docker image run. `npm install` builds it too,
-through `prepare`. The paths below name the source files.
+The server is Rust, in one crate: a library in `src/lib.rs` and a binary in `src/main.rs`. It
+is built on the official MCP Rust SDK, [`rmcp`](https://github.com/modelcontextprotocol/rust-sdk),
+for the protocol and both transports, with [`axum`](https://github.com/tokio-rs/axum) for the
+HTTP routes and middleware and `tokio` as the runtime. `cargo build --release` compiles it to
+`target/release/lxagents-agentic`, which is what clients and the Docker image run.
+
+`build.rs` embeds every `.md` file in `content/` into the binary, so the binary carries its set
+with it and serves nothing from disk. Cargo re-runs `build.rs` whenever `content/` changes.
 
 ## From a request to a file
 
-1. `src/index.ts` reads the environment once (`src/config.ts`) and calls `run()`.
-2. `src/run.ts` picks the transport. stdio starts `src/stdio.ts`. HTTP starts
-   `src/http/primary.ts`, which refuses to start without a required token and forks workers;
-   each worker (`src/http/worker.ts`) listens with the app from `src/http/app.ts`.
-3. Each connection, or each HTTP request, gets a fresh server from `createServer()` in
-   `src/server.ts`, which calls `registerTool` once per entry in `CONTENT_INSTRUCTIONS`.
-4. `CONTENT_INSTRUCTIONS` is built once, at import, by `src/instructions/from-content.ts`: one
-   tool per `.md` file in `content/`, its ID from `src/instructions/naming.ts`, its description
-   from the file's frontmatter, and a handler that returns the file byte for byte.
+1. `src/main.rs` parses the arguments (`src/cli.rs`), builds and checks the set, reads the
+   environment once (`src/config.rs`), and starts a runtime sized for the transport.
+2. stdio runs `src/stdio.rs`. HTTP runs `src/http/mod.rs`, which refuses to start without a
+   required token, then binds and serves the router from `src/http/app.rs`.
+3. Each stdio connection, and each HTTP request, is answered by an `AgenticServer` from
+   `src/server.rs`: `tools/list` returns one tool per entry of `instructions()`, and
+   `tools/call` returns that entry's file as one text block.
+4. `instructions()` is built once, by `src/instructions/surface.rs`, from the table `build.rs`
+   wrote: one tool per `.md` file, its ID from `src/instructions/naming.rs`, its description
+   from the file's frontmatter, and the file's text byte for byte.
 
 ## Why the set is checked at boot
 
@@ -26,12 +32,13 @@ that cannot be routed on should not start.
 
 ## One name, one place
 
-`src/identity.ts` holds the org, repo, server ID, title and summary. The tool prefix, every ID,
-the health check and every log line come from it, which is what lets `npm run init` rename a
-copy by rewriting that one file and the documentation.
+`src/identity.rs` holds the org, repo, server ID, title and summary. The tool prefix, every ID,
+the health check and every log line come from it. `Cargo.toml` holds the version.
 
 ## HTTP
 
-`POST /mcp` is stateless: a fresh `McpServer` and transport per request. `GET /healthz` is the
-only route without a token. The `Host` allow-list, then the token check, run before the body
-parser and the routes. See [Environment](../environments/env.md).
+`POST /mcp` is stateless: rmcp's `StreamableHttpService` with sessions off, answering each
+request with a fresh server. `GET /healthz` is the only route without a token. The `Host`
+allow-list, then the token check, then the JSON body check (4 MB at most) run before the routes.
+`MCP_CLUSTER_WORKERS` sets the number of runtime threads; nothing is forked. See
+[Environment](../environments/env.md).

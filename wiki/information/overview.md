@@ -12,9 +12,10 @@ carries a failsafe, and all of them keep their work state outside the repository
 
 | Surface | How |
 |---|---|
-| Skill MCP over stdio | `npm start` |
-| Skill MCP over HTTP | `npm run start:http` (loopback, no token) or a container (token required) |
-| Command line | `node dist/cli.js tools`, `--help`, `--version` |
+| Skill MCP over stdio | `target/release/lxagents-agentic`, no arguments |
+| Skill MCP over HTTP | `lxagents-agentic serve --http --host 127.0.0.1` (loopback, no token) or a container (token required) |
+| Command line | `lxagents-agentic tools`, `--help`, `--version` |
 
-The tools are derived from `content/` at boot. Adding a file adds a tool; there is no tool code
-to write. Nothing writes, and nothing reaches a network.
+The server is Rust, built on the official MCP Rust SDK (`rmcp`) with `axum` for HTTP. The tools
+are derived from `content/`, which is compiled into the binary and checked at boot. Adding a
+file and rebuilding adds a tool; there is no tool code to write. Nothing writes, and nothing reaches a network.
