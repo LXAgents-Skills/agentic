@@ -1,10 +1,8 @@
-node_modules/
 *.log
 .env
 .env.*
 .DS_Store
-coverage/
 
 # Untracked working plan - never staged, never committed
 /.agents/plans/
-dist/
+target/

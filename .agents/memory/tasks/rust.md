@@ -69,3 +69,35 @@ the TypeScript build at `9c38975` and from the Rust binary.
 ### Task 1 — plan/rust
 
 Landed: this record and its row in `memory-index.md`.
+
+### Task 2 — refactor/rust
+
+Landed. The TypeScript server, its tests, `scripts/init`, `package.json`, the lockfile and both
+`tsconfig` files are removed. In their place:
+
+- `Cargo.toml` (edition 2024, `rust-version` 1.88) and the committed `Cargo.lock`. Runtime
+  crates: `rmcp` 3.10 (`server`, `transport-io`, `transport-streamable-http-server`), `axum`
+  0.8, `tokio` 1, `serde_json` (key order preserved), `sha2` 0.11 and `subtle` 2. Test-only:
+  `rmcp` with `client` and `transport-child-process`, and `regex`.
+- `build.rs` writes the table of embedded `content/` files; `src/instructions/surface.rs`
+  builds and checks it at boot with the same refusals as before.
+- `src/lib.rs` holds every module, so the integration tests drive the server in-process;
+  `src/main.rs` is the only effectful entry point. One module per old TypeScript file, except
+  `http/primary.ts` and `http/worker.ts`, which became `http/mod.rs` (no process forking), and
+  the new `http/host.rs`, which replaces the SDK's `Host` middleware.
+- `rustfmt.toml` sets a 110-column width.
+- The Dockerfile builds with `rust:1-bookworm` and runs the binary on `debian:bookworm-slim`
+  as a non-root user.
+
+Verification:
+
+- `cargo fmt --check` and `cargo clippy --all-targets -- -D warnings` are clean.
+- `cargo test` passes 59 tests: 29 unit tests, plus 30 integration tests in `tests/surface.rs`,
+  `tests/agentic_content.rs`, `tests/http.rs` and `tests/binary.rs`.
+- A stdio client called every tool on the TypeScript build at `9c38975` and on the release
+  binary. `initialize` (name, title, instructions), `tools/list` (names, descriptions, no
+  arguments) and every `tools/call` result were identical. `tools` prints the same six lines.
+- The Docker image was built and run. It refuses to start HTTP without a token (exit 1),
+  answers `/healthz` with a token, and answers stdio with `-i`. The image is 123 MB. In this
+  sandbox, the build needed the proxy's CA certificate added to a throwaway copy of the
+  Dockerfile; the committed Dockerfile needs nothing extra.
