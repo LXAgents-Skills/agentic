@@ -5,7 +5,7 @@ description: Migrating LXAgents-Skills/agentic from TypeScript to Rust on the of
 
 # Task: migrate agentic to Rust
 
-**Status: in progress.**
+**Status: done.**
 
 The owner asked for every repository in the organization to move from TypeScript to Rust,
 using the official MCP Rust SDK (`rmcp`, from `modelcontextprotocol/rust-sdk`) and `axum` as
@@ -41,10 +41,10 @@ without human review is allowed.
 
 | # | Task | Branch | PR |
 |---|---|---|---|
-| 1 | This record | `plan/rust` | |
-| 2 | Rust server, tests, Dockerfile; TypeScript removed | `refactor/rust` | |
-| 3 | README, wiki, rules | `docs/rust` | |
-| 4 | Version 0.1.2, changelog, close this record | `release/0.1.2` | |
+| 1 | This record | `plan/rust` | #11 |
+| 2 | Rust server, tests, Dockerfile; TypeScript removed | `refactor/rust` | #12 |
+| 3 | README, wiki, rules | `docs/rust` | #13 |
+| 4 | Version 0.1.2, changelog, close this record | `release/0.1.2` | #14 |
 
 ## Done criteria
 
@@ -125,3 +125,10 @@ the Rust file or the cargo command:
 `content/` is unchanged. The self corrector's generic advice to look in `package.json` is about
 any repository, not this one. The released 0.1.0 and 0.1.1 changelogs and the closed task
 records keep their history.
+
+### Task 4 — release/0.1.2
+
+Landed. `Cargo.toml` and `Cargo.lock` are at `0.1.2`. That is a patch bump, the owner's default:
+the tool surface is unchanged, and only the install command moved. `wiki/logs/0/1/2/CHANGELOG.md`
+is written, calls out the client command change, and has its row in `logs-index.md`. The `PR`
+column is filled in (#11 to #14), and this record is closed.

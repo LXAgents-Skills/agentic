@@ -1,6 +1,6 @@
 [package]
 name = "lxagents-agentic"
-version = "0.1.1"
+version = "0.1.2"
 edition = "2024"
 rust-version = "1.88"
 description = "Instructions for fully autonomous agentic workflows, one purpose per tool, served read-only."
